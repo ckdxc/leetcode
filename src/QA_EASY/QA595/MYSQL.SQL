@@ -1,0 +1,1 @@
+select name, population, area from World where area>300*10000 or population>2500*10000
