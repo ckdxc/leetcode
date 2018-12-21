@@ -2,16 +2,16 @@ package QA_EASY.QA929;
 
 import util.ArrayUtil;
 
-import java.util.Arrays;
-import java.util.HashSet;
+
+import java.util.*;
 
 public class Solution {
     public static void main(String[] args){
         System.out.println(Arrays.toString(getArray(10)));
 
         String[] arr = getArray(10);
-        System.out.println(numUniqueEmails(arr));
-        System.out.println(numUniqueEmails(arr,1));
+        System.out.println("我的"+numUniqueEmails(arr));
+        System.out.println("正确答案"+numUniqueEmails(arr,1));
     }
     /**
      * 每封电子邮件都由一个本地名称和一个域名组成，以 @ 符号分隔。
@@ -24,42 +24,111 @@ public class Solution {
      * 可以同时使用这两个规则。
      * 给定电子邮件列表 emails，我们会向列表中的每个地址发送一封电子邮件。实际收到邮件的不同地址有多少？
      */
+//    public static int numUniqueEmails(String[] emails) {
+//        String[] localnames = new String[emails.length];
+//        String[] scopenames = new String[emails.length];
+//        List<String> locallist = new ArrayList<>();
+//        List<String> scopelist = new ArrayList<>();
+//        int index,count = 0,scopesame=0;
+//        String stra="",strb="";
+//        // 本地名称 和 域名 分组;
+//        for (int i = 0;i<emails.length;i++){
+//            index = emails[i].indexOf("@");
+//            locallist.add(localnames[i] = emails[i].substring(0,index));
+//            scopelist.add(scopenames[i] = emails[i].substring(index));
+//        }
+//        Set<String> scopeset = new HashSet<>();
+//        for (int i = 0;i<scopelist.size();i++)
+//            scopeset.add(scopelist.get(i));
+//        //遍历 域名
+//        for (int i = 0;i<scopenames.length-1;i++){
+//            for (int j = i+1;j<scopenames.length;j++){
+//                //域名相同 就 本地名称 比较
+//                if(scopenames[i].equals(scopenames[j])){
+//                    scopesame++;
+//                    System.out.println(scopesame);
+//                    int pointindex = localnames[i].indexOf(".");
+//                    int plusindex = localnames[i].indexOf("+");
+//                    if (plusindex>0)
+//                        stra = localnames[i];
+//                    if (plusindex>0)
+//                        stra = stra.substring(0,plusindex);
+//                    pointindex = localnames[j].indexOf(".");
+//                    plusindex = localnames[j].indexOf("+");
+//                    if (plusindex>0)
+//                        strb = localnames[i];
+//                    if (plusindex>0)
+//                        strb = strb.substring(0,plusindex);
+//                    if(!stra.equals(strb))
+//                        count++;
+//                    System.out.println("count: "+count);
+//                }
+//            }
+//        }
+//        System.out.println("不同域名数"+scopeset.size());
+//        return scopeset.size()+count;
+//    }
+
     public static int numUniqueEmails(String[] emails) {
-        String[] localnames = new String[emails.length];
-        String[] scopenames = new String[emails.length];
-        int index,count = 0,scopesame=0;
-        String stra="",strb="";
-        // 本地名称 和 域名 分组;
-        for (int i = 0;i<emails.length;i++){
-            index = emails[i].indexOf("@");
-            localnames[i] = emails[i].substring(0,index);
-            scopenames[i] = emails[i].substring(index);
+        Set<String> realEmailnames = new HashSet<>();
+        for (String email:emails) {
+            String local = email.split("@")[0];
+            String host = email.split("@")[1];
+            local = local.split("[+]")[0].replaceAll(".","");
+            realEmailnames.add(local + host);
         }
-        //遍历 域名
-        for (int i = 0;i<scopenames.length-1;i++){
-            for (int j = i+1;j<scopenames.length;j++){
-                //域名相同 就 本地名称 比较
-                if(scopenames[i]==scopenames[j]){
-                    scopesame++;
-                    int pointindex = localnames[i].indexOf(".");
-                    int plusindex = localnames[i].indexOf("+");
-                    if (plusindex>0)
-                        stra = localnames[i];
-                    if (plusindex>0)
-                        stra = stra.substring(0,plusindex);
-                    pointindex = localnames[j].indexOf(".");
-                    plusindex = localnames[j].indexOf("+");
-                    if (plusindex>0)
-                        stra = localnames[i];
-                    if (plusindex>0)
-                        stra = stra.substring(0,plusindex);
-                    if(!stra.equals(strb))
-                        count++;
-                }
-            }
-        }
-        return emails.length-scopesame+count;
+        return realEmailnames.size();
     }
+
+
+
+//    public static int numUniqueEmails(String[] emails) {
+//        Set<String> realEmailSet = new HashSet<>();
+//        String[] localnames = new String[emails.length];
+//        String[] scopenames = new String[emails.length];
+//        for (int i = 0;i<emails.length;i++){
+//            String[] strs = emails[i].split("@");
+//            localnames[i] = strs[0];
+//            scopenames[i] = strs[1];
+//        }
+//        for (int i = 0;i<emails.length;i++) {
+//            char[] chars = localnames[i].toCharArray();
+//            List<Character> charlist = new ArrayList<>();
+//            for (char c : chars)
+//                charlist.add(c);
+//            boolean pointFlg = true, plusFlg = true;
+//            int cur = 0, flgindex = 0;
+//            while (pointFlg == true || plusFlg == true) {
+//                for (int j = cur; j < charlist.size()&&cur<charlist.size(); j++) {
+//                    pointFlg = charlist.get(j) == '.' ? true : false;
+//                    plusFlg = charlist.get(j) == '+' ? true : false;
+//                    cur++;
+//                    if (pointFlg == true || plusFlg == true) {
+//                        flgindex = j;
+//                        cur--;
+//                        break;
+//                    }
+//                }
+//                if (pointFlg == true) {
+//                    charlist.remove(flgindex);
+//                }
+//                if (plusFlg == true) {
+//                    while (charlist.size()>flgindex)
+//                        charlist.remove(flgindex);
+//                    plusFlg = false;
+//                }
+//                if(charlist.contains('.')||charlist.contains('+')){
+//                    pointFlg = true;
+//                }
+//            }
+//            Object[] objs = charlist.toArray();
+//            String realemail = new String();
+//            for (Object obj:objs)
+//                realemail+=(char)obj+"";
+//            realEmailSet.add(realemail + scopenames[i]);
+//        }
+//        return realEmailSet.size();
+//    }
 
     public static String[] getArray(int length){
         String[] strs = new String[length];
