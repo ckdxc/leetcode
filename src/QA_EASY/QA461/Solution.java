@@ -16,8 +16,9 @@ public class Solution {
      * 解释:
      * 1   (0 0 0 1)
      * 4   (0 1 0 0)
-     *        ↑   ↑
+     * ↑   ↑
      * 上面的箭头指出了对应二进制位不同的位置。
+     *
      * @param x
      * @param y
      * @return
@@ -30,6 +31,7 @@ public class Solution {
         else
             return conpare(ychars, xchars);
     }
+
     public static int conpare(char[] x, char[] y) {
         int count = 0;
         int sub = x.length - y.length;
@@ -55,7 +57,7 @@ public class Solution {
      * 运用 异或运算,然后把运算结果转换成二进制 统计 1 的个数
      */
     public static int hammingDistance2(int x, int y) {
-        int bin = x^y;
+        int bin = x ^ y;
         char[] chars = Integer.toBinaryString(bin).toCharArray();
         int count = 0;
         for (char c : chars) {
