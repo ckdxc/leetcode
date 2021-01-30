@@ -1,7 +1,5 @@
 package QA_EASY.QA657;
 
-import com.sun.org.apache.regexp.internal.RE;
-
 public class Solution {
     public static void main(String[] args) {
 
