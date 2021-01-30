@@ -28,6 +28,10 @@ public class Solution {
         return sb.toString();
     }
 
+    public static String reverseLeftWords2(String s, int n) {
+        return s.substring(n) + s.substring(0, n);
+    }
+
     public static void main(String[] args) {
         String s = "abcdefg";
         int k = 2;
